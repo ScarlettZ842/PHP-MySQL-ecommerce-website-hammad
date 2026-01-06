@@ -6,19 +6,19 @@ ini_set('error_reporting', E_ALL);
 date_default_timezone_set('Asia/Dubai');
 
 // Host Name
-$dbhost = 'localhost';
+$dbhost = getenv('DB_HOST') ?: 'localhost';
 
 // Database Name
-$dbname = 'fashiony_ogs';
+$dbname = getenv('DB_NAME') ?: 'fashiony_ogs';
 
 // Database Username
-$dbuser = 'root';
+$dbuser = getenv('DB_USER') ?: 'root';
 
 // Database Password
-$dbpass = '';
+$dbpass = getenv('DB_PASSWORD') ?: '';
 
 // Defining base url
-define("BASE_URL", "http://fashionys.com/");
+define("BASE_URL", "http://localhost:8080/");
 
 // Getting Admin url
 define("ADMIN_URL", BASE_URL . "admin" . "/");

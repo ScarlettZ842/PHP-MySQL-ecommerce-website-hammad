@@ -1,5 +1,5 @@
-<!-- This is main configuration File -->
 <?php
+// This is main configuration File
 ob_start();
 session_start();
 include("admin/inc/config.php");

@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # MySQL Database Service
+  db:
+    image: mysql:5.7
+    container_name: fashiony_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: fashiony_ogs
+      MYSQL_USER: fashiony_ogs
+      MYSQL_PASSWORD: simple123
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./fashiony_ogs.sql:/docker-entrypoint-initdb.d/fashiony_ogs.sql
+    networks:
+      - fashiony_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # PHP Apache Web Service
+  web:
+    image: php:7.4-apache
+    container_name: fashiony_web
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    networks:
+      - fashiony_network
+    environment:
+      - DB_HOST=db
+      - DB_NAME=fashiony_ogs
+      - DB_USER=fashiony_ogs
+      - DB_PASSWORD=simple123
+    command: >
+      bash -c "
+      docker-php-ext-install pdo pdo_mysql mysqli &&
+      a2enmod rewrite &&
+      apache2-foreground
+      "
+
+volumes:
+  db_data:
+
+networks:
+  fashiony_network:
+    driver: bridge

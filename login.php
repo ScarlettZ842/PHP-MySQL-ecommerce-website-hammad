@@ -1,6 +1,6 @@
 <?php require_once('header.php'); ?>
-//fetching row banner login
 <?php
+//fetching row banner login
 $statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
 $statement->execute();
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);                            
@@ -8,8 +8,8 @@ foreach ($result as $row) {
     $banner_login = $row['banner_login'];
 }
 ?>
-//login form
 <?php
+//login form
 if(isset($_POST['form1'])) {
         
     if(empty($_POST['cust_email']) || empty($_POST['cust_password'])) {
